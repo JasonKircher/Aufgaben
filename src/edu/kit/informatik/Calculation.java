@@ -29,11 +29,18 @@ public class Calculation {
      * @return              (int[][]) Die Adjazenz Matrix, welche so oft, wie nötig, mit sich selbst multipliziert wurde
      */
     public static int[][] adjacencyMatrixMultiplier(String[] paths, String pathlength) {
-        int[][] adjacencyMatrix =    {{0, 0, 0, 0},
-                                     {0, 0, 0, 0},
-                                     {0, 0, 0, 0},
-                                     {0, 0, 0, 0}};
-
+        int z = 0;
+        // Bestimmung der Dimension der Adjazenz Matrix in dem der höchste Knoten ausgelesen wird
+        for (int i = 0; i < paths.length; i++) {
+            String[] temp = paths[i].split(" ");
+            for (int k = 0; k < temp.length; k++) {
+                int z1 = Integer.parseInt(temp[k]);
+                if (z < z1) {
+                    z = z1;
+                }
+            }
+        }
+        int[][] adjacencyMatrix = new int[z + 1][z + 1];
 
         for(int i = 0; i < paths.length; i++) {
             String[] temp = paths[i].split(" ");
@@ -42,10 +49,10 @@ public class Calculation {
 
             adjacencyMatrix[tempStart][tempEnd] = 1;
         }
-        int[][] temp = adjacencyMatrix;
+        int[][] output = adjacencyMatrix;
         for (int i = 1; i < Integer.parseInt(pathlength); i++) {
-            temp = Calculation.multiplyMatrices(temp, adjacencyMatrix);
+            output = Calculation.multiplyMatrices(output, adjacencyMatrix);
         }
-        return temp;
+        return output;
     }
 }
